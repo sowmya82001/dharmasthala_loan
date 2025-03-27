@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Applications</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://i.pinimg.com/736x/df/a6/26/dfa62604c1eea79dfc4f7d3dc3f8977d.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .content-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .status-container {
+            max-width: 200px;
+            text-align: center;
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: white;
+        }
+        .status-approved {
+            background-color: #28a745;
+        }
+        .status-pending {
+            background-color: #ffc107;
+            color: black;
+        }
+        .status-rejected {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Dharmasthala Loan Management System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'apply_loan' %}">Apply for a Loan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'loan_status' %}">Check Loan Status</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'loan_dashboard' %}">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loan Applications Table -->
+    <div class="container mt-5">
+        <div class="content-container">
+            <h1 class="text-center">Your Loan Applications</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Mobile Number</th>
+                            <th>Address</th>
+                            <th>Amount</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for loan in loans %}
+                        <tr>
+                            <td>{{ loan.name }}</td>
+                            <td>{{ loan.mobile_number }}</td>
+                            <td>{{ loan.address }}</td>
+                            <td>₹{{ loan.amount }}</td>
+                            <td>{{ loan.purpose }}</td>
+                            <td>
+                                <div class="status-container 
+                                    {% if loan.status == 'Approved' %}status-approved
+                                    {% elif loan.status == 'Pending' %}status-pending
+                                    {% else %}status-rejected{% endif %}">
+                                    {{ loan.status }}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
